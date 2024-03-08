@@ -458,6 +458,7 @@ function getMessages(channel_id) {
           m.reactions.map(emoji => {
             let button = document.createElement("button");
             button.setAttribute("class", "emojiButton"+ m.id + emoji);
+            button.classList.add("emoji_button")
             button.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + emoji + "')");
             button.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + emoji + "')");
             button.appendChild(document.createTextNode(emoji));
@@ -480,6 +481,7 @@ function getMessages(channel_id) {
             m.reactions.map(emoji => {
               let button = document.createElement("button");
               button.setAttribute("class", "emojiButton"+ m.id + emoji);
+              button.classList.add("emoji_button")
               button.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + emoji + "')");
               button.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + emoji + "')");
               button.appendChild(document.createTextNode(emoji));
@@ -595,6 +597,7 @@ function getReplies(message_id) {
           m.reactions.map(emoji => {
             let button = document.createElement("button");
             button.setAttribute("class", "emojiButton"+ m.id + emoji);
+            button.classList.add("emoji_button")
             button.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + emoji + "')");
             button.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + emoji + "')");
             button.appendChild(document.createTextNode(emoji));
@@ -615,6 +618,7 @@ function getReplies(message_id) {
           m.reactions.map(emoji => {
             let button = document.createElement("button");
             button.setAttribute("class", "emojiButton"+ m.id + emoji);
+            button.classList.add("emoji_button")
             button.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + emoji + "')");
             button.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + emoji + "')");
             button.appendChild(document.createTextNode(emoji));

@@ -161,36 +161,6 @@ def join_channel():
     query_db('INSERT INTO unreads (user_id, channel_id, message_id) values (?, ?, ?)', [u[0], channel_id, m[0]], one=True)
     return jsonify({"status": "success"}), 200
 
-# @app.route('/api/channel/get_channel_unreads', methods=['GET'])
-# def get_channel_unreads():
-#     u = authenticate(request)
-#     if not u:
-#         return {}, 500
-#     unreads = query_db('''SELECT channels.id, channels.name, COUNT(messages.id) FROM channels
-#                        LEFT JOIN messages ON channels.id = messages.channel_id
-#                        LEFT JOIN unreads ON channels.id = unreads.channel_id AND unreads.user_id = (?) 
-#                        WHERE messages.id > unreads.message_id
-#                        OR (messages.id IS NULL AND unreads.message_id IS NOT NULL)
-#                        GROUP BY channels.id''', (u[0],))
-#     allread = query_db('''SELECT channels.id, channels.name FROM channels
-#                        LEFT JOIN messages ON channels.id = messages.channel_id
-#                        LEFT JOIN unreads ON channels.id = unreads.channel_id AND unreads.user_id = (?) 
-#                        WHERE messages.id = unreads.message_id
-#                        GROUP BY channels.id''', (u[0],))
-#     data = [{"id": i[0], "name": i[1], "count": i[2]} for i in unreads or []]
-#     c_ids = set()
-#     if unreads:
-#         for c in unreads:
-#             c_ids.add(c["id"])
-#     if allread:
-#         for c in allread:
-#             if c["id"] not in c_ids:
-#                 data = data + [{"id": c[0], "name": c[1], "count": 0}]
-#     if len(data) > 0:
-#         data = sorted(data, key=lambda x: x["id"])
-#     #print(data)
-#     return jsonify(data), 200
-
 @app.route('/api/channel/get_channels', methods=['GET'])
 def get_channels():
     u = authenticate(request)

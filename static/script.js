@@ -455,6 +455,7 @@ function getMessages(channel_id) {
           messagesList.appendChild(messageEntry);
           let addedReactions = document.createElement("div");
           addedReactions.setAttribute("class", "addedReactions"+m.id);
+          addedReactions.classList.add("reaction_indicators")
           m.reactions.map(emoji => {
             let button = document.createElement("button");
             button.setAttribute("class", "emojiButton"+ m.id + emoji);
@@ -594,6 +595,7 @@ function getReplies(message_id) {
           repliesList.appendChild(replyEntry);
           let addedReactions = document.createElement("div");
           addedReactions.setAttribute("class", "addedReactions"+m.id);
+          addedReactions.classList.add("reaction_indicators")
           m.reactions.map(emoji => {
             let button = document.createElement("button");
             button.setAttribute("class", "emojiButton"+ m.id + emoji);

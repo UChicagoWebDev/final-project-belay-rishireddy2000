@@ -32,6 +32,13 @@ button.home.dark{
   margin-top: 10%;
 }
 
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
 .center {
   display: flex;
   justify-content: center;
@@ -52,7 +59,6 @@ input {
   margin: auto;
   padding: 0 30px;
   background-color: #F4EDE4;
-  box-shadow: 0 0 20px black;
 }
 
 button, .emoji {
@@ -61,15 +67,15 @@ button, .emoji {
 }
 
 button {
-  color: rgb(0, 0, 0);
   font-family: sans-serif;
   background-color: #f4ede4;
   padding: 6px;
   border-radius: 10px;
   font-size: 20px;
   margin: 10px;
-  width:50px;
-  height:50px;
+  width:auto;
+  height: auto;
+  border: none;
 }
 
 button:hover, .emoji:hover {
@@ -77,7 +83,7 @@ button:hover, .emoji:hover {
 }
 
 .channelColumn {
-  background: #4A154B;
+  background: #6a276b;
   padding: 1px;
 }
 
@@ -98,7 +104,7 @@ button.createchannelbutton{
 }
 
 button.right {
-  width: 75px;
+  width: auto;
   float: right;
   margin: 10px;
 }
@@ -153,7 +159,6 @@ button.right {
     margin: 1px;
     height: 88vh;
     overflow-y: scroll;
-    box-shadow: 20px 20px 50px #F4EDE4;
     ;
   }
 
@@ -166,7 +171,7 @@ button.right {
   }
 
   .channelsbox {
-    background-color: #4A154B;
+    background-color: #6a276b;
     color: #F4EDE4;
   }
 }

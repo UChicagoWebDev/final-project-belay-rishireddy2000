@@ -10,7 +10,6 @@ let MAX_REPLY_ID = 0;
 let CURRENT_MESSAGE = -1;
 
 function router(path) {
-  //console.log("line11"+LOGIN_STATE);
 
   UNAUTHPAGE.classList.add("hide");
   AUTHPAGE.classList.add("hide");
@@ -23,18 +22,15 @@ function router(path) {
   document.querySelector(".messagesbox").classList.add("narrowhide");
   document.querySelector(".threadbox").classList.add("narrowhide");
 
-  //console.log("router: " + path);
   if (localStorage.getItem("rishi_belay_auth_key") != null) {
     LOGIN_STATE = true;
   }
 
   if (LOGIN_STATE) {
-    //console.log("line29");
     AUTHPAGE.classList.remove("hide");
     UNAUTHPAGE.classList.add("hide");
   } 
   else {
-    //console.log("line34");
     AUTHPAGE.classList.add("hide");
     UNAUTHPAGE.classList.remove("hide");
     showSignupLogin();
@@ -42,7 +38,6 @@ function router(path) {
 
   if (path == null) {
     path = window.location.pathname;
-    //console.log(path);
   }
   window.history.pushState(null, null, path);
 
@@ -51,7 +46,6 @@ function router(path) {
   MAX_REPLY_ID = 0;
   CURRENT_MESSAGE = -1;
   if (LOGIN_STATE) {
-    //console.log("line45"+LOGIN_STATE);
     if (path == "/") {
       WORKSPACE.classList.remove("hide");
       document.querySelector(".channelsbox").classList.remove("narrowhide");
@@ -62,7 +56,6 @@ function router(path) {
     else if (path.startsWith("/channels/")) {
       WORKSPACE.classList.remove("hide");
       let parts = path.split("/");
-      //console.log(parts);
       CURRENT_CHANNEL = parseInt(parts[2])
       document.querySelector(".messagesbox").classList.remove("narrowhide");
       openChannel(CURRENT_CHANNEL);
@@ -137,7 +130,6 @@ function openChannel(channel_id) {
   })
   .then(response => response.json())
   .then(responseBody => {
-    //console.log("openChannel: " + responseBody.name);
     let channelTitle = document.querySelector(".channelTitle");
     channelTitle.replaceChildren();
     channelTitle.appendChild(document.createTextNode(responseBody.name));
@@ -206,18 +198,13 @@ function login() {
   })
   .then(response => response.json())
   .then(responseBody => {
-    //console.log(responseBody);
     if (responseBody.auth_key == "") {
-      //console.log("auth key empty");
       alert("bad credentials");
     }
     else {
       localStorage.setItem("rishi_belay_auth_key", responseBody.auth_key);
       document.cookie = "rishi_belay_auth_key=" + responseBody.auth_key;
-      // AUTHPAGE.classList.remove("hide");
-      // UNAUTHPAGE.classList.add("hide");
       LOGIN_STATE = true;
-      //console.log("line136"+LOGIN_STATE);
       gohome();
     }
   });
@@ -233,12 +220,8 @@ function logout() {
   })
   .then(response => response.json())
   .then(responseBody => {
-    //console.log("logout" + responseBody);
     localStorage.removeItem("rishi_belay_auth_key");
     document.cookie = document.cookie + ";max-age=0";
-    // AUTHPAGE.classList.add("hide");
-    // UNAUTHPAGE.classList.remove("hide");
-    // showSignupLogin();
     LOGIN_STATE = false;
     gohome();
   });
@@ -254,7 +237,6 @@ function authenticate() {
   })
   .then(response => response.json())
   .then(responseBody => {
-    //console.log("authenticate: " + responseBody.status);
     if (responseBody.status == "success") {
       LOGIN_STATE = true;
     } else {
@@ -306,7 +288,6 @@ function createChannel() {
   })
   .then(response => response.json())
   .then(responseBody => {
-    //console.log(responseBody.id);
     joinChannel(responseBody.id);
   });
   closeCreateChannel();
@@ -322,11 +303,9 @@ function getChannels() {
   })
   .then(response => response.json())
   .then(channels => {
-    console.log(channels);
     let channelsList = document.querySelector(".channelsList > ol");
     channelsList.replaceChildren();
     channels.map(chan => {
-      // console.log(chan.name);
       let li = document.createElement("li");
       let p = document.createElement("p");
       if (chan.id == CURRENT_CHANNEL) {
@@ -356,11 +335,9 @@ function getChannelUnreads() {
   })
   .then(response => response.json())
   .then(channels => {
-    console.log(channels);
     let channelsList = document.querySelector(".channelsList > ol");
     channelsList.replaceChildren();
     channels.map(chan => {
-      // console.log(chan.name);
       let li = document.createElement("li");
       let p = document.createElement("p");
       if (chan.id == CURRENT_CHANNEL) {
@@ -392,11 +369,7 @@ function getMessages(channel_id) {
   })
   .then(response => response.json())
   .then(messages => {
-    //console.log(messages);//jsonify([{"id": msg[0], "author_name": msg[1], "body": msg[2], "num_replies": msg[3],
-                                  // "reactions": [e[0] for e in query_db("SELECT emoji FROM reactions WHERE message_id = (?) GROUP BY emoji", (str(msg[0]))) or []]}
-                                  // for msg in msgs])
     let messagesList = document.querySelector(".messagesList");
-    // messagesList.replaceChildren();
     if (messages.length == 0) {
       messagesList.replaceChildren();
       let p = document.createElement("p");
@@ -450,7 +423,7 @@ function getMessages(channel_id) {
           let addReactionButton = document.createElement("button");
           addReactionButton.setAttribute("class", "right addReactionButton" + m.id);
           addReactionButton.setAttribute("onclick", "showAddReactions(" + m.id + ")");
-          addReactionButton.appendChild(document.createTextNode("Add reaction"));
+          addReactionButton.appendChild(document.createTextNode("+"));
           messageEntry.appendChild(addReactionButton);
           messagesList.appendChild(messageEntry);
           let addedReactions = document.createElement("div");
@@ -514,7 +487,6 @@ function postMessage(channel_id) {
   })
   .then(response => response.json())
   .then(responseBody => {
-    //console.log(responseBody.status);
   });
 }
 
@@ -528,7 +500,6 @@ function getReplies(message_id) {
   })
   .then(response => response.json())
   .then(m => {
-    //console.log(m);
     let repliedMessageEntry = document.querySelector(".repliedMessageEntry");
     repliedMessageEntry.replaceChildren();
     let pname = document.createElement("p");
@@ -538,10 +509,8 @@ function getReplies(message_id) {
     pbody.appendChild(document.createTextNode(m.body));
     repliedMessageEntry.appendChild(pname);
     repliedMessageEntry.appendChild(pbody);
-    //console.log("message done");
   });
 
-  //console.log("going to get replies");
   fetch("/api/message/get_replies/" + message_id, {
     method: "GET",
     headers: {
@@ -551,11 +520,6 @@ function getReplies(message_id) {
   })
   .then(response => response.json())
   .then(replies => {
-    //console.log(replies);  //jsonify([{"id": reply[0], "author_id": reply[1], "body": reply[3],
-                                // "reactions": [e[0] for e in query_db("SELECT emoji FROM reactions WHERE message_id = (?) GROUP BY emoji", (str(reply[0]))) or []]}
-                                //   for reply in replies])
-    
-    //console.log("start working on replies");
     let repliesList = document.querySelector(".repliesList");
     if (replies.length == 0) {
       repliesList.replaceChildren();
@@ -571,8 +535,6 @@ function getReplies(message_id) {
         noreply.classList.add("hide");
       }
       replies.map(m => {
-        //console.log("m.id"+m.id);
-        //console.log("MAX_REPLY_ID"+MAX_REPLY_ID);
         if (m.id > MAX_REPLY_ID) {
 
           MAX_REPLY_ID = m.id;
@@ -590,7 +552,7 @@ function getReplies(message_id) {
           let addReactionButton = document.createElement("button");
           addReactionButton.setAttribute("class", "right addReactionButton" + m.id);
           addReactionButton.setAttribute("onclick", "showAddReactions(" + m.id + ")");
-          addReactionButton.appendChild(document.createTextNode("Add reaction"));
+          addReactionButton.appendChild(document.createTextNode("+"));
           replyEntry.appendChild(addReactionButton);
           repliesList.appendChild(replyEntry);
           let addedReactions = document.createElement("div");
@@ -652,7 +614,6 @@ function postReplies(channel_id) {
   })
   .then(response => response.json())
   .then(responseBody => {
-    //console.log(responseBody.status);
   });
 }
 
@@ -667,15 +628,15 @@ function getReactionUsers(message_id, emoji) {
   })
   .then(response => response.json())
   .then(usernames => {
-    //console.log(usernames);  //jsonify([u[0] for u in usernames])
     let button = document.querySelector(".emojiButton" + message_id + emoji);
+
     button.replaceChildren();
     let text = "From: ";
     usernames.map(name => {
       text = text + name + ", "
     })
-    text = text.slice(0, -2);
-    button.appendChild(document.createTextNode(emoji + text));
+    text = usernames.length;
+    button.innerHTML += emoji + text;
   });
 }
 
@@ -687,7 +648,7 @@ function hideReactionUsers(message_id, emoji) {
 
 function showAddReactions(message_id) {
   let button = document.querySelector(".addReactionButton" + message_id);
-  button.replaceChildren();
+    button.replaceChildren();
   let emojis = ["👍","✅","🙌","😀","👀"];
   emojis.map(e => {
     let eobj = document.createElement("b");
@@ -699,7 +660,7 @@ function showAddReactions(message_id) {
     else {
       eobj.appendChild(document.createTextNode(" " + e + " |"));
     }
-    
+
     button.appendChild(eobj);
   })
 }
@@ -715,7 +676,6 @@ function addReaction(message_id, emoji) {
   })
   .then(response => response.json())
   .then(responseBody => {
-    //console.log(responseBody.status);
     let button = document.querySelector(".addReactionButton" + message_id);
     button.appendChild(document.createTextNode(" Added: " + emoji + "+1"));
   });

@@ -161,8 +161,8 @@ def join_channel():
     query_db('INSERT INTO unreads (user_id, channel_id, message_id) values (?, ?, ?)', [u[0], channel_id, m[0]], one=True)
     return jsonify({"status": "success"}), 200
 
-@app.route('/api/channel/get_channels', methods=['GET'])
-def get_channels():
+@app.route('/api/channel/get_unread_channels', methods=['GET'])
+def get_unread_channels():
     u = authenticate(request)
     if not u:
         return {}, 500
@@ -192,6 +192,17 @@ def get_channels():
         for c in allchannels:
             if c["id"] not in only_c:
                 data = data + [{"id": c[0], "name": c[1], "count": 0}]
+    if len(data) > 0:
+        data = sorted(data, key=lambda x: x["id"])
+    return jsonify(data), 200
+
+@app.route('/api/channel/get_channels', methods=['GET'])
+def get_channels():
+    u = authenticate(request)
+    if not u:
+        return {}, 500
+    allchannels = query_db('''SELECT channels.id, channels.name FROM channels''')
+    data = [{"id": i[0], "name": i[1]} for i in allchannels or []]
     if len(data) > 0:
         data = sorted(data, key=lambda x: x["id"])
     return jsonify(data), 200

@@ -57,6 +57,13 @@ button.narrowhide{
   justify-content: center;
   align-items: center;
 }
+.gotologin, .gotosignup{
+  font-size: 25px;
+  font-weight: bolder;
+  color: white;
+
+  align-items: center;
+}
 
 h2 {
   font-weight: bold;
@@ -107,6 +114,7 @@ p.channelName:hover {
 button.createchannelbutton{
   width: fit-content;
   height: fit-content;
+  margin-bottom: 30px;
 }
 
 .curChan {
@@ -114,6 +122,22 @@ button.createchannelbutton{
   background-color: #36C5F0;
   color: #F4EDE4;
   padding: 5px;
+}
+textarea#postMessage{
+  width: 75%;
+  align-self: center;
+  height: 50px;
+}
+.postReply{
+  margin: 10px;
+}
+textarea#postReplies{
+  width: 75%;
+  align-self: center;
+  height: 50px;
+}
+.postReplies{
+  margin: 10px;
 }
 
 button.right {
@@ -150,6 +174,13 @@ button.right {
   grid-row: 2 / 6;
 }
 
+hr{
+  border: 1px solid #000;
+  visibility: visible;
+  display: block;
+  width: 100%;
+}
+
 .gridbox2, .gridbox5 {
   grid-row: 6 / 8;
 }
@@ -171,20 +202,26 @@ button.right {
     color: #F4EDE4;
     /* border-top-left-radius: 30px;
     border-bottom-left-radius: 30px; */
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
   }
 
-  /* .threadbox{
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-  }
+  .channelsbox::-webkit-scrollbar {
+    width: 10px;
+}
 
-  .messagesbox.extra_wide{
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-  } */
+.channelsbox::-webkit-scrollbar-track {
+    border-radius: 8px;
+    height: 80%;
+    background-color: #4A154B;
+    border: 1px solid #F4EDE4;
+}
+
+.channelsbox::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    height: 5px;
+    background-color: #F4EDE4;
+}
+
   
   input#changeUsername{
     width: 300px;
@@ -196,6 +233,32 @@ button.right {
   }
 
   input#changePassword{
+    width: 300px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: large;
+    font-weight: bold;
+    text-indent: 15px;
+  }
+
+  h1.title{
+    font-size: 50px;
+    font-weight: bolder;
+    color: white;
+  }
+
+
+
+  input#loginUsername{
+    width: 300px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: large;
+    font-weight: bold;
+    text-indent: 15px;
+  }
+
+  input#loginPassword{
     width: 300px;
     height: 40px;
     border-radius: 10px;

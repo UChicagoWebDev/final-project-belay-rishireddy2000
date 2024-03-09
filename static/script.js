@@ -391,12 +391,16 @@ function getMessages(channel_id) {
           messageEntry.setAttribute("id", m.id);
           messageEntry.setAttribute("class", "messageEntry"+m.id);
           let pname = document.createElement("p");
-          pname.setAttribute("style", "font-weight: bold;  color: #36C5F0");
-          pname.appendChild(document.createTextNode("From: " + m.author_name));
+          pname.appendChild(document.createTextNode(m.author_name));
           let pbody = document.createElement("p");
           pbody.appendChild(document.createTextNode(m.body));
-          messageEntry.appendChild(pname);
-          messageEntry.appendChild(pbody);
+          let message_span = document.createElement("div")
+          pbody.setAttribute("style", "display: inline-block; padding-left: 10px; margin:5px")
+          pname.setAttribute("style", "display: inline-block; font-weight: bold;  color: #36C5F0; margin:5px")
+          message_span.setAttribute("style", "display: inline-block;  ")
+          message_span.appendChild(pname);
+          message_span.appendChild(pbody);
+          messageEntry.appendChild(message_span);
           let imageUrlRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif))/gi;
           let imageUrls = m.body.match(imageUrlRegex);
           if (imageUrls) {
@@ -450,7 +454,7 @@ function getMessages(channel_id) {
           if (addedReactions) {
             addedReactions.replaceChildren();
             let emojibuttons = document.createElement("div");
-            let emojis = ["👍","✅","🙌","😀","👀"];
+            let emojis = ["👍","🙌","😀","👀", "✅"];
             emojis.map(e => {
               let eobj = document.createElement("button");
               eobj.setAttribute("class", "emoji");
@@ -505,11 +509,16 @@ function getReplies(message_id) {
     repliedMessageEntry.replaceChildren();
     let pname = document.createElement("p");
     pname.setAttribute("style", "font-weight: bold;");
-    pname.appendChild(document.createTextNode("From: " + m.author_name));
+    pname.appendChild(document.createTextNode(m.author_name));
     let pbody = document.createElement("p");
     pbody.appendChild(document.createTextNode(m.body));
-    repliedMessageEntry.appendChild(pname);
-    repliedMessageEntry.appendChild(pbody);
+    let message_span = document.createElement("div")
+    pbody.setAttribute("style", "display: inline-block; padding-left: 10px; margin:5px")
+    pname.setAttribute("style", "display: inline-block; font-weight: bold;  color: #36C5F0; margin:5px")
+    message_span.setAttribute("style", "display: inline-block;  ")
+    message_span.appendChild(pname);
+    message_span.appendChild(pbody);
+    repliedMessageEntry.appendChild(message_span);
   });
 
   fetch("/api/message/get_replies/" + message_id, {
@@ -543,17 +552,21 @@ function getReplies(message_id) {
           replyEntry.setAttribute("id", m.id);
           replyEntry.setAttribute("class", "replyEntry"+m.id);
           let pname = document.createElement("p");
-          pname.setAttribute("style", "font-weight: bold;");
-          pname.appendChild(document.createTextNode("From: " + m.author_name));
+          pname.appendChild(document.createTextNode(m.author_name));
           let pbody = document.createElement("p");
           pbody.appendChild(document.createTextNode(m.body));
-          
-          replyEntry.appendChild(pname);
-          replyEntry.appendChild(pbody);
+
+          let message_span = document.createElement("div")
+          pbody.setAttribute("style", "display: inline-block; padding-left: 10px; margin:5px")
+          pname.setAttribute("style", "display: inline-block; font-weight: bold;  color: #36C5F0; margin:5px")
+          message_span.setAttribute("style", "display: inline-block;  ")
+          message_span.appendChild(pname);
+          message_span.appendChild(pbody);
+          replyEntry.appendChild(message_span);
 
           let emojibuttons = document.createElement("div");
           emojibuttons.classList.add("addedReactions" + m.id)
-            let emojis = ["👍","✅","🙌","😀","👀"];
+            let emojis = ["👍","🙌","😀","👀", "✅"];
             emojis.map(e => {
               let eobj = document.createElement("button");
               eobj.setAttribute("class", "emoji");
@@ -567,18 +580,12 @@ function getReplies(message_id) {
             replyEntry.appendChild(emojibuttons);
             repliesList.appendChild(replyEntry)
           let brdiv = document.createElement("div");
-          brdiv.setAttribute("class", "brdiv"+m.id);
-          if (m.reactions.length == 0) {
-            brdiv.appendChild(document.createElement("br"));
-            brdiv.appendChild(document.createElement("br"));
-            replyEntry.appendChild(brdiv);
-          }
           repliesList.appendChild(document.createElement("hr"));
         }
         else {
           document.querySelector(".addedReactions" + m.id).replaceChildren();
           let emojibuttons = document.createElement("div");
-            let emojis = ["👍","✅","🙌","😀","👀"];
+          let emojis = ["👍","🙌","😀","👀", "✅"];
             emojis.map(e => {
               let eobj = document.createElement("button");
               eobj.setAttribute("class", "emoji");
@@ -655,7 +662,7 @@ function hideReactionUsers(message_id, emoji) {
 function showAddReactions(message_id) {
   let button = document.querySelector(".addReactionButton" + message_id);
     button.replaceChildren();
-  let emojis = ["👍","✅","🙌","😀","👀"];
+    let emojis = ["👍","🙌","😀","👀", "✅"];
   emojis.map(e => {
     let eobj = document.createElement("b");
     eobj.setAttribute("class", "emoji");

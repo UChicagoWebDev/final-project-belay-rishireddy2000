@@ -279,7 +279,7 @@ def get_reaction_users(message_id, emoji):
     if not authenticate(request):
         return {}, 500
     usernames = query_db("SELECT users.name FROM reactions LEFT JOIN users on reactions.user_id = users.id WHERE reactions.message_id = (?) AND reactions.emoji = (?)", (message_id, emoji))
-    return jsonify([u[0] for u in usernames]), 200
+    return jsonify([u[0] for u in usernames] if usernames is not None else []) , 200
 
 @app.route('/api/reactions/add_reaction', methods=['POST'])
 def add_reaction():
@@ -289,4 +289,5 @@ def add_reaction():
     emoji = request.json['emoji']
     message_id = request.json['message_id']
     query_db('INSERT INTO reactions (emoji, message_id, user_id) VALUES (?, ?, ?)', (emoji, message_id, u[0]), one=True)
+    print("here")
     return jsonify({"status": "success"}), 200

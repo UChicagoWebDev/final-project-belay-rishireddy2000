@@ -6,6 +6,7 @@ body {
   background-color: #4A154B;
   margin: 0;
   height: 100vh;
+  font-size: 20px;
 }
 
 .unauth, .auth {
@@ -25,6 +26,18 @@ button.home.dark{
 
 [class^="messageEntry"]{
   padding: 10px;
+}
+
+
+button.logout.right {
+  width: 75px;
+  height: 35px;
+  margin-top: 19px;
+}
+
+button.narrowhide{
+  border-radius: 10%;
+  border: black;
 }
 
 .title {
@@ -144,6 +157,7 @@ button.right {
 .messagesbox button, .threadbox button {
   margin: 0;
   width: auto;
+  border: black;
 }
 
 @media (min-width: 800px) {
@@ -152,14 +166,65 @@ button.right {
     flex-direction: row;
   }
 
+  .channelsbox {
+    background-color: #6a276b;
+    color: #F4EDE4;
+    /* border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px; */
+    /* overflow-y: scroll; */
+  }
+
+  /* .threadbox{
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
+
+  .messagesbox.extra_wide{
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+  } */
+  
+  input#changeUsername{
+    width: 300px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: large;
+    font-weight: bold;
+    text-indent: 15px;
+  }
+
+  input#changePassword{
+    width: 300px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: large;
+    font-weight: bold;
+    text-indent: 15px;
+  }
+  
+    label{
+      font-size: larger;
+      font-weight: bolder;
+      color: white;
+    }
+
   flexbox {
     flex: 1;
     padding: 0 30px;
     background-color: #F4EDE4;
     margin: 1px;
     height: 88vh;
-    overflow-y: scroll;
-    ;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
+
+  flexbox.channelsbox{
+    padding-left: 20px;
+    padding-right: 0px;
   }
 
   flexbox.wide {
@@ -169,12 +234,9 @@ button.right {
   .widehide {
     display: none;
   }
-
-  .channelsbox {
-    background-color: #6a276b;
-    color: #F4EDE4;
-  }
 }
+
+
 
 @media (max-width: 800px) {
   .narrowhide {

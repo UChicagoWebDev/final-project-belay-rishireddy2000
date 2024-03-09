@@ -58,6 +58,7 @@ function router(path) {
       let parts = path.split("/");
       CURRENT_CHANNEL = parseInt(parts[2])
       document.querySelector(".messagesbox").classList.remove("narrowhide");
+      document.querySelector(".messagesbox").classList.add("extra_wide");
       openChannel(CURRENT_CHANNEL);
       if (parts.length > 4 && parts[3] == "replies") {
         CURRENT_MESSAGE = parseInt(parts[4]);
@@ -420,25 +421,21 @@ function getMessages(channel_id) {
           replybutton.setAttribute("onclick", "router('/channels/"+ channel_id +"/replies/"+ m.id +"')");
           replybutton.appendChild(document.createTextNode("Reply"));
           messageEntry.appendChild(replybutton);
-          let addReactionButton = document.createElement("button");
-          addReactionButton.setAttribute("class", "right addReactionButton" + m.id);
-          addReactionButton.setAttribute("onclick", "showAddReactions(" + m.id + ")");
-          addReactionButton.appendChild(document.createTextNode("+"));
-          messageEntry.appendChild(addReactionButton);
           messagesList.appendChild(messageEntry);
-          let addedReactions = document.createElement("div");
-          addedReactions.setAttribute("class", "addedReactions"+m.id);
-          addedReactions.classList.add("reaction_indicators")
-          m.reactions.map(emoji => {
-            let button = document.createElement("button");
-            button.setAttribute("class", "emojiButton"+ m.id + emoji);
-            button.classList.add("emoji_button")
-            button.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + emoji + "')");
-            button.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + emoji + "')");
-            button.appendChild(document.createTextNode(emoji));
-            addedReactions.appendChild(button);
+          let emojibuttons = document.createElement("div");
+          emojibuttons.classList.add("addedReactions" + m.id)
+          let emojis = ["👍","✅","🙌","😀","👀"];
+          emojis.map(e => {
+            let eobj = document.createElement("button");
+            eobj.setAttribute("class", "emoji");
+            eobj.setAttribute("class", "emojiButton"+ m.id + e);
+            eobj.setAttribute("onclick", "addReactionEmoji(" + m.id + ", '" + e + "')");
+            eobj.appendChild(document.createTextNode(" " + e + " "));
+            eobj.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + e + "')");
+            eobj.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + e + "')");
+            emojibuttons.appendChild(eobj);
           })
-          messageEntry.appendChild(addedReactions);
+          messageEntry.appendChild(emojibuttons);
           let brdiv = document.createElement("div");
           brdiv.setAttribute("class", "brdiv"+m.id);
           if (m.reactions.length == 0) {
@@ -452,15 +449,19 @@ function getMessages(channel_id) {
           let addedReactions = document.querySelector(".addedReactions" + m.id);
           if (addedReactions) {
             addedReactions.replaceChildren();
-            m.reactions.map(emoji => {
-              let button = document.createElement("button");
-              button.setAttribute("class", "emojiButton"+ m.id + emoji);
-              button.classList.add("emoji_button")
-              button.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + emoji + "')");
-              button.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + emoji + "')");
-              button.appendChild(document.createTextNode(emoji));
-              addedReactions.appendChild(button);
+            let emojibuttons = document.createElement("div");
+            let emojis = ["👍","✅","🙌","😀","👀"];
+            emojis.map(e => {
+              let eobj = document.createElement("button");
+              eobj.setAttribute("class", "emoji");
+              eobj.setAttribute("class", "emojiButton"+ m.id + e);
+              eobj.setAttribute("onclick", "addReactionEmoji(" + m.id + ", '" + e + "')");
+              eobj.appendChild(document.createTextNode(" " + e + " "));
+              eobj.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + e + "')");
+              eobj.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + e + "')");
+              emojibuttons.appendChild(eobj);
             })
+            addedReactions.appendChild(emojibuttons)
           }
           if (m.reactions.length != 0) {
             let brdiv = document.querySelector(".brdiv"+m.id);
@@ -474,7 +475,7 @@ function getMessages(channel_id) {
     
   });
 }
-                            
+
 
 function postMessage(channel_id) {
   fetch("/api/message/post_message", {
@@ -549,25 +550,22 @@ function getReplies(message_id) {
           
           replyEntry.appendChild(pname);
           replyEntry.appendChild(pbody);
-          let addReactionButton = document.createElement("button");
-          addReactionButton.setAttribute("class", "right addReactionButton" + m.id);
-          addReactionButton.setAttribute("onclick", "showAddReactions(" + m.id + ")");
-          addReactionButton.appendChild(document.createTextNode("+"));
-          replyEntry.appendChild(addReactionButton);
-          repliesList.appendChild(replyEntry);
-          let addedReactions = document.createElement("div");
-          addedReactions.setAttribute("class", "addedReactions"+m.id);
-          addedReactions.classList.add("reaction_indicators")
-          m.reactions.map(emoji => {
-            let button = document.createElement("button");
-            button.setAttribute("class", "emojiButton"+ m.id + emoji);
-            button.classList.add("emoji_button")
-            button.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + emoji + "')");
-            button.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + emoji + "')");
-            button.appendChild(document.createTextNode(emoji));
-            addedReactions.appendChild(button);
-          })
-          replyEntry.appendChild(addedReactions);
+
+          let emojibuttons = document.createElement("div");
+          emojibuttons.classList.add("addedReactions" + m.id)
+            let emojis = ["👍","✅","🙌","😀","👀"];
+            emojis.map(e => {
+              let eobj = document.createElement("button");
+              eobj.setAttribute("class", "emoji");
+              eobj.setAttribute("class", "emojiButton"+ m.id + e);
+              eobj.setAttribute("onclick", "addReactionEmoji(" + m.id + ", '" + e + "')");
+              eobj.appendChild(document.createTextNode(" " + e + " "));
+              eobj.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + e + "')");
+              eobj.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + e + "')");
+              emojibuttons.appendChild(eobj);
+            })
+            replyEntry.appendChild(emojibuttons);
+            repliesList.appendChild(replyEntry)
           let brdiv = document.createElement("div");
           brdiv.setAttribute("class", "brdiv"+m.id);
           if (m.reactions.length == 0) {
@@ -579,15 +577,22 @@ function getReplies(message_id) {
         }
         else {
           document.querySelector(".addedReactions" + m.id).replaceChildren();
-          m.reactions.map(emoji => {
-            let button = document.createElement("button");
-            button.setAttribute("class", "emojiButton"+ m.id + emoji);
-            button.classList.add("emoji_button")
-            button.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + emoji + "')");
-            button.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + emoji + "')");
-            button.appendChild(document.createTextNode(emoji));
-            document.querySelector(".addedReactions" + m.id).appendChild(button);
-          })
+          let emojibuttons = document.createElement("div");
+            let emojis = ["👍","✅","🙌","😀","👀"];
+            emojis.map(e => {
+              let eobj = document.createElement("button");
+              eobj.setAttribute("class", "emoji");
+              eobj.setAttribute("class", "emojiButton"+ m.id + e);
+              eobj.setAttribute("onclick", "addReactionEmoji(" + m.id + ", '" + e + "')");
+              eobj.appendChild(document.createTextNode(" " + e + " "));
+              eobj.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + e + "')");
+              eobj.setAttribute("onmouseover", "getReactionUsers(" + m.id + ", '" + e + "')");
+              eobj.setAttribute("onmouseleave", "hideReactionUsers(" + m.id + ", '" + e + "')");
+              emojibuttons.appendChild(eobj);
+            })
+            document.querySelector(".addedReactions" + m.id).appendChild(emojibuttons);
+
+
           if (m.reactions.length != 0) {
             let brdiv = document.querySelector(".brdiv"+m.id);
             if (brdiv != null) {
@@ -637,8 +642,9 @@ function getReactionUsers(message_id, emoji) {
     })
     text = usernames.length;
     button.innerHTML += emoji + text;
+    return usernames.length?usernames.length:0 ;
   });
-}
+  }
 
 function hideReactionUsers(message_id, emoji) {
   let button = document.querySelector(".emojiButton" + message_id + emoji);
@@ -653,7 +659,7 @@ function showAddReactions(message_id) {
   emojis.map(e => {
     let eobj = document.createElement("b");
     eobj.setAttribute("class", "emoji");
-    eobj.setAttribute("onclick", "addReaction(" + message_id + ", '" + e + "')");
+    eobj.setAttribute("onclick", "addReactionEmoji(" + message_id + ", '" + e + "')");
     if (e == "👀") {
       eobj.appendChild(document.createTextNode(" " + e + " "));
     }
@@ -681,3 +687,14 @@ function addReaction(message_id, emoji) {
   });
 }
 
+
+function addReactionEmoji(message_id, emoji) {
+  fetch("/api/reactions/add_reaction", {
+    method: "POST",
+    headers: {
+      "X-API-KEY": localStorage.getItem("rishi_belay_auth_key"),
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({emoji: emoji, message_id: message_id})
+  })
+}

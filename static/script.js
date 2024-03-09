@@ -295,7 +295,7 @@ function createChannel() {
 }
 
 function getChannels() {
-  fetch("/api/channel/get_channels", {
+  fetch("/api/channel/get_all_channels", {
     method: "GET",
     headers: {
       "X-API-KEY": localStorage.getItem("rishi_belay_auth_key"),
@@ -315,15 +315,34 @@ function getChannels() {
       else {
         p.setAttribute("class", "channelName");
       }
+      p.classList.add("channel__"+chan.id)
       p.setAttribute("onclick", "router('/channels/" + chan.id + "')");
       p.appendChild(document.createTextNode(chan.name));
       li.appendChild(p);
-      if (chan.count != 0) {
-        li.appendChild(document.createTextNode(" (" + chan.count + " unread)"));
-      }
       channelsList.appendChild(li);
     })
   });
+
+  fetch("/api/channel/get_channel_unreads", {
+    method: "GET",
+    headers: {
+      "X-API-KEY": localStorage.getItem("rishi_belay_auth_key"),
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => response.json())
+  .then(channels => {
+    channels.map(chan => {
+      let  var_chan = document.querySelector(".channel__"+chan.id)
+      console.log()
+      if (chan.count != 0) {
+        var_chan.innerHTML += ("  ("+chan.count + " unread)");
+        console.log(var_chan.innerHTML)
+      }
+    })
+  });
+
+
 }
 
 function getChannelUnreads() {
